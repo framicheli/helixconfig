@@ -3,6 +3,7 @@ theme = "onedark"
 [editor]
 line-number = "relative"
 mouse = true
+auto-completion = true
 rulers = [120]
 true-color = true
 completion-replace = true
