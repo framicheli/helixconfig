@@ -10,7 +10,6 @@ completion-replace = true
 trim-trailing-whitespace = true
 end-of-line-diagnostics = "hint"
 color-modes = true
-bufferline = true
 
 [editor.cursor-shape]
 insert = "bar"
