@@ -1,0 +1,138 @@
+# -----------------------------------------------------------------
+# Python — pylsp (jedi + mypy + rope) + ruff (lint & format)
+# -----------------------------------------------------------------
+[[language]]
+name = "python"
+language-servers = ["pylsp", "ruff"]
+auto-format = true
+formatter = { command = "ruff", args = ["format", "-"] }
+
+[language-server.pylsp]
+command = "pylsp"
+
+# Linters/formatters superseded by `ruff server` below.
+[language-server.pylsp.config.pylsp.plugins]
+autopep8 = { enabled = false }
+black = { enabled = false }
+flake8 = { enabled = false }
+isort = { enabled = false }
+mccabe = { enabled = false }
+pycodestyle = { enabled = false }
+pydocstyle = { enabled = false }
+pyflakes = { enabled = false }
+pylint = { enabled = false }
+yapf = { enabled = false }
+ruff = { enabled = false }
+rope_autoimport = { enabled = true, completions = { enabled = false }, code_actions = { enabled = true } }
+
+# Type checking via mypy. mypy runs with pylsp's own interpreter
+[language-server.pylsp.config.pylsp.plugins.pylsp_mypy]
+enabled = true
+live_mode = true
+report_progress = true
+
+# `ruff server`: lint + format + import sorting; a project's pyproject.toml /
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language-server.ruff.config.settings]
+lineLength = 100
+lint = { extendSelect = ["I"] }
+codeAction = { disableRuleComment = { enable = false } }
+
+# -----------------------------------------------------------------
+# Rust — rust-analyzer, clippy-on-save, lldb-dap for debugging
+# -----------------------------------------------------------------
+[[language]]
+name = "rust"
+auto-format = true
+language-servers = ["rust-analyzer"]
+
+[language-server.rust-analyzer.config]
+check.command = "clippy"
+cargo.features = "all"
+inlayHints.bindingModeHints.enable = true
+inlayHints.closureReturnTypeHints.enable = "with_block"
+inlayHints.lifetimeElisionHints.enable = "skip_trivial"
+completion.fullFunctionSignatures.enable = true
+
+[language.debugger]
+name = "lldb-dap"
+transport = "stdio"
+command = "lldb-dap"
+
+[[language.debugger.templates]]
+name = "binary"
+request = "launch"
+completion = [ { name = "binary", completion = "filename" } ]
+args = { program = "{0}" }
+
+[[language.debugger.templates]]
+name = "binary (terminal)"
+request = "launch"
+completion = [ { name = "binary", completion = "filename" } ]
+args = { program = "{0}", runInTerminal = true }
+
+# -----------------------------------------------------------------
+# Zig — zls
+# -----------------------------------------------------------------
+[[language]]
+name = "zig"
+auto-format = true
+language-servers = ["zls"]
+formatter = { command = "zig", args = ["fmt", "--stdin"] }
+
+[language-server.zls]
+command = "zls"
+
+# -----------------------------------------------------------------
+# C / C++ — clangd (driven by compile_commands.json) + lldb-dap
+# -----------------------------------------------------------------
+[[language]]
+name = "cpp"
+auto-format = true
+language-servers = ["clangd"]
+
+[language.debugger]
+name = "lldb-dap"
+transport = "stdio"
+command = "lldb-dap"
+
+[[language.debugger.templates]]
+name = "binary"
+request = "launch"
+completion = [ { name = "binary", completion = "filename" } ]
+args = { program = "{0}" }
+
+[[language]]
+name = "c"
+auto-format = true
+language-servers = ["clangd"]
+
+[language.debugger]
+name = "lldb-dap"
+transport = "stdio"
+command = "lldb-dap"
+
+[[language.debugger.templates]]
+name = "binary"
+request = "launch"
+completion = [ { name = "binary", completion = "filename" } ]
+args = { program = "{0}" }
+
+[language-server.clangd]
+command = "clangd"
+args = ["--header-insertion=iwyu", "--clang-tidy", "--background-index", "--completion-style=detailed", "--function-arg-placeholders"]
+
+# Forester behavior-tree language (added by forester-lsp)
+[language-server.forester-lsp]
+command = "forester-lsp"
+
+[[language]]
+name = "forester"
+scope = "source.forester"
+file-types = ["tree"]
+comment-token = "//"
+block-comment-tokens = { start = "/*", end = "*/" }
+language-servers = ["forester-lsp"]

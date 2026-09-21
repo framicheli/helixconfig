@@ -1,15 +1,21 @@
 theme = "onedark"
 
 [editor]
-line-number = "relative"
+line-number = "absolute"
 mouse = true
-auto-completion = true
-rulers = [120]
+bufferline = "multiple"
+color-modes = true
+cursorline = true
 true-color = true
+rulers = [100]
+idle-timeout = 50
+completion-trigger-len = 1
+auto-completion = true
+auto-format = true
 completion-replace = true
 trim-trailing-whitespace = true
 end-of-line-diagnostics = "hint"
-color-modes = true
+default-line-ending = "lf"
 
 [editor.cursor-shape]
 insert = "bar"
@@ -24,8 +30,8 @@ hidden = false
 
 [editor.indent-guides]
 render = true
-character = "╎"
-skip-levels = 0
+character = "|"
+skip-levels = 1
 
 [editor.soft-wrap]
 enable = true
@@ -33,7 +39,12 @@ enable = true
 [editor.auto-save]
 focus-lost = true
 after-delay.enable = true
-after-delay.timeout = 300000
+after-delay.timeout = 1000
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+auto-signature-help = true
 
 [editor.statusline]
 left = [
@@ -59,5 +70,25 @@ right = [
   "register",
   "selections",
 ]
-
 separator = "|"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[editor.whitespace.render]
+space = "none"
+tab = "all"
+newline = "none"
+
+[editor.file-picker]
+hidden = false
+
+[keys.normal]
+C-s = ":w"
+C-q = ":q"
+"space" = { "space" = "file_picker", "w" = ":w", "q" = ":q", "b" = "buffer_picker", "B" = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}" }
+m = ":sh glow -p %{buffer_name}"
+C-e = ":sh code -g %{buffer_name}:%{cursor_line}"
+
+[keys.insert]
+"C-s" = ["normal_mode", ":w"]
