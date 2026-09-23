@@ -80,9 +80,6 @@ space = "none"
 tab = "all"
 newline = "none"
 
-[editor.file-picker]
-hidden = false
-
 [keys.normal]
 C-s = ":w"
 C-q = ":q"
